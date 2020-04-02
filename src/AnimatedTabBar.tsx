@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, StyleProp, ViewStyle } from 'react-native';
 import Animated, { useCode, onChange, call } from 'react-native-reanimated';
 import { useValues } from 'react-native-redash';
 import { useSafeArea } from 'react-native-safe-area-context';
@@ -7,7 +7,6 @@ import { CommonActions, Route } from '@react-navigation/native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { AnimatedTabBarItem } from './item';
 import { TabsConfigsType, AnimationConfigProps } from './types';
-import { styles } from './styles';
 
 Animated.addWhitelistedNativeProps({
   width: true,
@@ -20,6 +19,7 @@ interface AnimatedTabBarProps extends BottomTabBarProps, AnimationConfigProps {
    * Tabs configurations.
    */
   tabs: TabsConfigsType;
+  barStyle: StyleProp<ViewStyle>;
 }
 
 export const AnimatedTabBar = (props: AnimatedTabBarProps) => {
@@ -52,12 +52,12 @@ export const AnimatedTabBar = (props: AnimatedTabBarProps) => {
   // styles
   const containerStyle = useMemo(
     () => [
-      styles.container,
+      props.barStyle,
       {
         paddingBottom: safeArea.bottom,
       },
     ],
-    [safeArea]
+    [safeArea, props.barStyle]
   );
 
   // callbacks
